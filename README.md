@@ -12,6 +12,7 @@ There are two parts :
 
 - Manage services (watch status, enable/disable, ...)
 - Monitor hardware (CPU temperature, load, uptime, ...)
+- Add custom action (e.g.: halt, reboot, ...)
 - Add web pages
 
 ## Screenshots
