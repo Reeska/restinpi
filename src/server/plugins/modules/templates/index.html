@@ -1,0 +1,17 @@
+<h1>Modules Manager</h2>
+
+<form method="post" enctype="multipart/form-data">
+    Install : <input type="file" name="package" /> <input type="submit" name="" value="Upload" />
+</form>
+
+<table>
+    <tr>
+        <th>Module</th>
+    </tr>
+    
+    {% for m in mods %}
+    <tr>
+        <td>{{ m }}</td>
+    </tr>
+    {% endfor %}
+</table>

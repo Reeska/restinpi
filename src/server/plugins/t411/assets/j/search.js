@@ -1,0 +1,1 @@
+$(function() {    $('#notices').click(function() {        var self = $(this);        var h = self.outerHeight(true);                self.animate({top: -h});    });        $('.ctop').click(function() {        $('#top [name="top"]').val($(this).data('name'));    });});

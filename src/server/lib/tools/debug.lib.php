@@ -1,0 +1,1 @@
+<?phpfunction d($d) {    echo '<pre>'; print_r($d); echo '</pre>';}

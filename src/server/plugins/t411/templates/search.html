@@ -1,0 +1,120 @@
+<div id="t411">    
+    {# ################### HEADER ################### #}
+    
+    <div id="header">
+        <div id="logo"><a href="view/t411/">T411</a></div>
+    
+        <div id="user" class="topbox">
+            <strong class="username">{{ profile.username }}</strong>
+             &darr; <strong class="down">{{ (profile.downloaded/1024/1024/1024)|number_format(0) }} Gio</strong> 
+             &uarr; <strong class="up">{{ (profile.uploaded/1024/1024/1024)|number_format(0) }} Gio</strong> 
+             % <strong class="ratio">{{ (profile.uploaded/profile.downloaded)|number_format(4) }}</strong> 
+             # <strong class="api">{{ tor.requests|length }}</strong>
+             [ <a href="view/t411/login?logout">logout</a> ]
+        </div>
+        
+        <form id="search" class="topbox">
+            <input type="text" name="search" value="{{ app.get.search }}" placeholder="Rechercher"  /> 
+            Limit : <input type="text" class="limit" name="limit" value="{{ tor.limit }}" /> <input type="submit" value="Search" />     
+        </form>
+        
+        <form id="transmission" class="topbox">
+            Transmission : <input type="text" name="torrent_dir" value="{{ config.torrent_dir }}" placeholder="Torrent directory" /> <input type="submit" value="Change" /> 
+        </form>
+        
+        <form id="top" class="topbox">
+            Top : <input type="text" name="top" readonly="readonly" maxlength="5" value="{{ app.request.top|default('-') }}" />
+            
+            <input type="submit" value="OK" />   
+            
+            <div class="choose">
+                <ul>
+                    {% for top in ['100', 'today', 'week', 'month'] %}
+                    <li class="ctop" data-name="{{ top }}">{{ top }} {{ app.request.top == top ? '==' }}</li>
+                    {% endfor %}
+                </ul>
+            </div>            
+        </form>
+    </div>
+    
+    {# ################### API REQUESTS ################### #}
+    
+    <div class="apilog">
+        <h3>Requests : {{ tor.requests|length }}</h3>
+        
+       {% for req in tor.requests %}
+        <p>{{ req.action }} : {{ req.response }}</p>
+        {% endfor %}
+    </div>
+    
+    {# ################### RESULTS ################### #}
+    
+    {% if results.list %}
+        {% set fields = {
+            'name' : 'Nom',
+            'seeders' : 'Seeders',
+            'leechers' : 'Leechers',
+            'size' : 'Taille'
+        } %}
+        
+        {# LIST #}
+        
+        <div id="results-wrapper">
+            <table id="results">
+                {% if results.list.pages %}
+                <thead>
+                    <tr>
+                        {% for field, label in fields %}
+                        <th><a href="view/t411/search?{{ app.request.search ? 'search=' ~ app.request.search ~ '&' }}tpage={{ results.page }}&order={{ field }}&type={{ app.request.order != field ? 'asc' : ( app.request.type == 'asc' ? 'desc' : 'asc' ) }}">{{ label }}</a></th>
+                        {% endfor %}
+                        
+                        <th>Details</th>
+                        <th>Download</th>
+                        {% if profile.username == config.user %}
+                        <th>Transmission</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                {% endif %}
+                
+                {% for torrent in results.list.torrents if is_object(torrent) %}
+                <tr>
+                    <td>{{ torrent.name }}</td>   
+                    <td>{{ torrent.seeders }}</td>
+                    <td>{{ torrent.leechers }}</td>
+                    <td>{{ torrent.size|printsize }}</td>
+                    <td><a href="http://t411.me/t/{{ torrent.id }}">Direct</a> - <a href="p/{{ base64_encode("http://t411.me/t/" ~ torrent.id) }}">Proxy</a></td>
+                    <td><a href="view/t411/search?dl={{ torrent.id }}">Download</a></td>
+                    {% if profile.username == config.user %}
+                    <td><a href="view/t411/search?dl={{ torrent.id }}&transmission=1&redirect={{ app.server.REQUEST_URI }}">Transmission</a></td>
+                    {% endif %}
+                </tr>
+                {% else %}
+                <tr>
+                    <td class="noresults" colspan="7">Aucun résultat :-(</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        
+        {# PAGINATION #}
+        
+        {% if results.list.pages %}
+        <div class="pagin">
+            {% if results.pagin.first > 1 %}
+            <a href="view/t411/search?{{ app.request.search ? 'search=' ~ app.request.search ~ '&' }}tpage=1">&lt;&lt;</a> ... 
+            {% endif %}
+            
+            {% for p in (results.pagin.first)..(results.pagin.last) if p != 0 %}
+                {% if p == results.page %}<span class="cur">-{{ p }}-</span>
+                {% else %}<a href="view/t411/search?{{ app.request.search ? 'search=' ~ app.request.search ~ '&' }}tpage={{ p }}">{{ p }}</a> 
+                {% endif %}
+            {% endfor %}
+            
+            {% if results.pagin.last < results.list.pages %}
+             ... <a href="view/t411/search?{{ app.request.search ? 'search=' ~ app.request.search ~ '&' }}tpage={{ results.list.pages }}">&gt;&gt;</a>
+            {% endif %}
+        </div>
+        {% endif %}
+    {% endif %}
+</div>

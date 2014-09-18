@@ -1,0 +1,62 @@
+<div id="tabs">
+    <span class="selected" data-target="conky">Conky</span><span data-target="shell-form">Shell</span>
+</div>
+<div id="shell">
+    <h1>REST in PI</h1>
+	<div id="conky" class="tab">	
+		<!-- <div class="toggle">&uarr;</div> -->
+		<div class="togglable">
+			<div id="actions">
+                {% for action in model.contents('action') %}
+                {{ action|raw }}
+                {% endfor %}
+			</div>
+			<div>
+				<h3>Infos</h3>
+                {% for action in model.contents('info') %}
+                <p>{{ action|raw|nl2br }}</p>
+                {% endfor %}                
+			</div>
+            
+			<div>
+				<h3>Pages</h3>
+			    <ul>
+                    {% for p in pages.pages %}
+                    <li>{{ p|raw }}</li>
+                    {% endfor %}                         
+				</ul>
+			</div>                    
+			
+			<div id="services">
+				<h3>Services</h3>
+			    <ul>
+                    {% for s in services.services %}
+                    <li>
+                        <span class="status {{ s.cmd ? '' : 'disabled' }}">
+                        <input type="checkbox" name="{{ s.name }}" class="switch-button" {{ s.enabled ? 'checked="checked"':'' }} {{ s.cmd ? '' : 'disabled="disabled"' }} />
+                        </span>
+                        {% if not s.url is empty %}
+                        <a href="{{ s.url }}">
+                        {% endif %}
+                        
+                        {{ s.name }} 
+                        
+                        {% if not s.url is empty %}
+                        &raquo;
+                        </a>
+                        {% endif %}
+                    </li>                    
+                    {% endfor %}
+				</ul>
+			</div>
+		</div>
+	</div>
+    
+	<form id="shell-form" class="tab">
+		<div id="shell-result"></div>
+		<div id="shell-prompt">
+			<div class="write"><span class="prompt success">[0] pi@raspberrypi:</span> <input type="text" name="cmd" /></div>
+			<div class="cur"></div>
+		</div>			
+	</form>				
+</div>

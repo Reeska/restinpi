@@ -1,0 +1,276 @@
+@import url('http://fonts.googleapis.com/css?family=Codystar|Comfortaa|Playball|Share+Tech+Mono|Aldrich');
+
+/***********************************************
+ * GLOBAL
+ ***********************************************/
+
+.toggle {
+    top: 0;
+    right: 0;
+	margin: 4px 0;
+	text-align: right;
+	font-weight: bold;
+	font-size: 14pt;
+	cursor: pointer;
+	float: right;
+}
+
+body {
+	background-color: black;
+}
+
+/***********************************************
+ * CONKY
+ ***********************************************/
+
+#conky {
+	position: fixed;
+	top: 10px;
+    bottom: 10px;
+	right: 24px;
+	background-color: rgba(182, 213, 180, 0.76);
+	word-break: break-all;
+	width: 307px;
+	border: 1px solid rgb(101, 245, 101);
+	border-top: 0 none;
+	border-right: 0 none;
+	z-index: 600;
+    font-family: 'Courier New';
+    overflow-y: auto;
+}
+
+#conky h3 {
+    background-color: rgba(56, 65, 56, 0.5);
+}
+
+#conky ul {
+    margin: 0;
+    padding: 0;
+}
+
+#conky li {
+    list-style-type: none;
+}
+
+#conky li:hover {
+    background-color: rgb(101, 245, 101)!important;
+}
+
+#conky h3, #conky p, #conky li {
+    border-bottom: 1px solid #000;
+    margin: 0;
+    padding: 4px 12px;  
+}
+
+#conky li:nth-child(even), #conky p:nth-child(even) {
+    background: rgb(204, 204, 204) rgba(204, 204, 204, 0.53);
+}
+
+#conky li:nth-child(odd), #conky p:nth-child(odd) {
+    background: #fff rgba(255, 255, 255, 0.43);
+}
+
+#conky a {
+    display: block;
+    text-decoration: none;
+    color: rgb(20, 20, 20);
+}
+
+#conky #services .status {
+    float: right;
+    background-color: white;
+    border-radius: 15px; 
+    border: 1px solid white;
+    padding: 0 6px;    
+    width: 61px;
+}
+
+#conky #services .status.fail {
+    border-color: rgb(209, 144, 144);
+    background-color: rgb(236, 220, 220);
+}
+
+#conky #services .status.disabled {
+    border-color: #ddd;
+    background-color: #eee;
+    font-style: italic;
+}
+
+#conky #services .switch-button-label.on  { color: rgb(18, 97, 238); }
+#conky #services .switch-button-label.off  { color: red; }
+
+#conky #services .switch-button-background {
+    margin-right: 0;   
+}
+
+#actions img {
+	margin: 6px;
+	vertical-align: middle;
+	cursor: pointer;
+	border-radius: 20px;
+	padding: 4px;	
+	border: 3px solid transparent;	
+	height: 24px;
+}
+
+#actions img:hover {
+	opacity: 0.5;
+}
+
+#actions img.success {
+	background: rgb(180, 253, 170);
+	border: 3px solid green;	
+}
+
+#actions img.error {
+	background: rgb(253, 170, 170);
+	border: 3px solid rgb(128, 10, 0);
+}
+
+/***********************************************
+ * SHELL
+ ***********************************************/
+
+#shell form, #shell input {
+	color: white;
+	font-family: 'Courier New';
+	font-size: 12pt;
+}
+
+#shell {
+    position: absolute;
+	top: 10px;
+	bottom: 10px;
+	overflow-y: auto;
+	border: 1px solid rgb(101, 245, 101);
+	left: 0px;
+	right: 0px;
+	background-color: rgb(49, 56, 46);
+}
+
+#shell form {
+	z-index: 500;
+    height: 100%;
+}
+
+#shell input:focus {
+    outline: none;   
+}
+
+#shell input {
+	background: transparent none;
+	border: 0 none;
+	width: 50%;
+}
+
+#shell pre, #shell p {
+	margin: 0;
+	font-size: 12pt;
+	word-break: break-word;
+}
+
+#shell .write {
+	display: none;
+}
+
+#shell .cur {
+	background-color: green;
+	height: 13px;
+	width: 3px;
+	display: inline-block;
+	margin: 6px 5px;
+}
+
+#shell h1 {
+	font-family: 'Share Tech Mono', sans-serif;
+	font-size: 39pt;
+	color: white;
+	margin: 0;
+	position: fixed;
+	z-index: 400;
+	top: 37%;
+	left: 37%;
+	opacity: 0.3;
+
+    background: #06F;
+    border-radius: 20px 0;
+    padding: 24px;
+    border: 3px solid #000;    
+}
+
+.prompt.error {
+	color: red;
+}
+
+.prompt.success {
+	color: rgb(101, 245, 101);
+}
+
+@media screen and (min-width: 1051px) {
+    #tabs {
+        display: none;
+    }
+    
+    .tab {
+        display: block!important;
+    }
+}
+
+/***********************************************
+ * Mobile
+ ***********************************************/
+
+@media screen and (max-width: 1050px) {
+	#conky {
+        position: fixed;
+        width: 100%;
+        right: 0;
+        left: 0;
+        top: 30px;
+        bottom: 0;
+	}
+
+	#conky h3:first-child {
+		margin-top: 0;
+	}
+
+	#shell form {
+		float: left;
+	}
+    
+    #shell {
+        left: 0;
+        right: 0;
+        top: 30px;
+        bottom: 0;
+    }
+    
+    #tabs {
+        background-color: rgb(139, 211, 105);
+        position: fixed;
+        width: 100%;
+        height: 30px;
+        top: 0;
+        left: 0;
+        display: block;
+        font-family: 'Share Tech Mono', sans-serif;
+    }
+    
+    #tabs span {
+        display: inline-block;
+        border-right: 1px dashed black;
+        padding: 6px 14px;
+        margin: 0;
+    }
+    
+    #tabs span.selected, 
+    #tabs span:hover {
+        background: black;
+        color: white;
+        cursor: pointer;
+    }    
+    
+    #shell-form {
+        display: none;
+    }
+}

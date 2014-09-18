@@ -1,0 +1,48 @@
+<!doctype html>
+<html ng-app="app">
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-rc.1/angular.min.js"></script>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.0.4/css/bootstrap-combined.min.css">
+  
+	<script>
+		angular.module('mycomp', [/* dependencies */])
+		.directive('tutu', function() {
+			return {
+				transclude: true,
+				template: '<div class="tutu {{ p }}" ng-transclude ng-click="touched()"></div>',
+				replace: true,
+				scope: {p : '@'},
+				link: function($scope) {
+					
+					
+				},
+				controller: function($scope) {
+					$scope.touched = function() {
+						console.log('Tutu touched');
+					};
+				}
+			}
+		});
+		
+		angular.module('app', ['mycomp'])
+		.controller('SuperCtrl', function($scope) {
+			$scope.name = "Blah";
+			$scope.props = { name : "my name" };
+			$scope.clicked = function() {
+				console.log('Tutu clicked');
+			
+				var sw = $scope.props.name;
+				$scope.props.name = $scope.name;
+				$scope.name = sw;
+			};			
+		});
+	</script>
+  </head>
+  <body>
+	<tutu p="bla">
+		<div ng-controller="SuperCtrl" ng-click="clicked()">
+			My super content : {{ name }}. {{ props.name }}
+		</div>
+	</tutu>
+  </body>
+</html>

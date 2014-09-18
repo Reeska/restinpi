@@ -1,0 +1,1 @@
+<?phprequire 'mod.inc.php';set_time_limit(0);/** * Check if this view exists */$view = MOD_DIR.'/'. $module .'/ws/'. $page . '.php';if (!is_file($view))    exit('Webservice inexistante');    header("Content-Type: application/json");try {    require $view;} catch (\Exception $e) {    WS_print(['error' => $e->getMessage()]);}

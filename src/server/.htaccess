@@ -1,0 +1,7 @@
+Options +FollowSymlinks
+Options -Multiviews
+
+RewriteEngine On
+
+RewriteRule ^view/([^/]*)(/(.*))?$ view.php?m=$1&p=$3 [L,QSA]
+RewriteRule ^ws/([^/]*)(/(.*))?$ ws.php?m=$1&p=$3 [L,QSA]

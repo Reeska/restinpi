@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    	<title>REST in PI</title>
+        <base href="{{ constant('BASEURL') }}/"/>
+		<link rel="shortcut icon" href="{{ favicon }}" />
+        
+        {% for c in css %}
+        <link href="{{ c }}" type="text/css" rel="stylesheet" />
+        {% endfor %}     
+        
+        <script src="assets/j/jquery.min.js"></script>
+        <script src="assets/j/jquery-ui/ui/minified/jquery-ui.min.js"></script>
+        <script src="assets/j/jquery-ui/ui/jquery.switchButton.js"></script>
+        
+        <link href="assets/j/jquery-ui/themes/base/jquery-ui.css" rel="stylesheet"/>
+        <link href="assets/j/jquery-ui/themes/base/jquery.switchButton.css" rel="stylesheet"/>
+        
+        {% for c in js %}
+        <script src="{{ c }}"></script>
+        {% endfor %}
+
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	</head>
+
+	<body>  
+        {% if app.notices %}
+        <div id="notices">
+            {% for notice in app.notices  %}
+            <p>{{ notice }}</p>
+            {% endfor %}
+            <div class="close">X</div>
+        </div>
+        {% endif %}
+    
+        <div id="menu">
+        
+        </div>
