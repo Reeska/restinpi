@@ -1,0 +1,201 @@
+/**
+ * Global
+ */
+main {
+	width: 90%;
+	margin: auto;
+}
+
+footer {
+    width: 100%;
+    margin: auto;
+    text-align: center;
+    font-style: italic;
+    border-top: 1px solid #ddd;
+    padding: 20px 0;
+    background-color: rgb(246, 243, 243);
+}
+
+.nav {
+	margin-bottom: 20px;
+}
+
+.nav a {
+	cursor: pointer;
+}
+
+td.fitcontent {
+    width: 1%;
+    white-space: nowrap;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.rotation {
+    -webkit-animation: spin 1s linear infinite;
+    -moz-animation: spin 1s linear infinite;
+    animation: spin 1s linear infinite;
+}
+
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
+/**
+ * Panels
+ */
+.data-panel {
+    width: 90%;
+    margin: 20px auto;
+}
+
+.data-panel .progress {
+    margin-bottom: 0;
+}
+
+.data-panel .alert {
+    margin-bottom: 0;
+}
+
+.panel-heading.togglable {
+	cursor: pointer;
+}
+
+.panel > .content > * {
+	margin-bottom: 0;
+}
+
+.panel-heading .glyphicon {
+    cursor: pointer;
+    float: right;
+    margin-left: 10px;
+}
+
+.panel-icon.glyphicon {
+    float: none;
+    margin-right: 10px;
+    margin-left: 0;
+    vertical-align: text-top;
+}
+
+.remotecontent > * {
+	margin-bottom: 0;
+}
+
+.content .list-group .list-group-item {
+	border-width: 1px 0;
+	border-radius: 0;
+}
+
+.content .list-group:last-child .list-group-item:last-child {
+	border-bottom: 0;
+	border-bottom-right-radius: 3px;
+	border-bottom-left-radius: 3px;
+}		
+
+.action-bar .progress {
+	display: inline-block;
+	width: 50%;
+	vertical-align: middle;
+	float: right;			
+}
+
+.status {
+    margin-top: 5px;
+    margin-bottom: 0;
+}
+
+/**
+ * Bootstrap Glyphicon color
+ */
+.glyphicon-default { color: #777; }
+.glyphicon-primary { color: #428bca; }
+.glyphicon-success { color: #5cb85c }
+.glyphicon-info { color: #5bc0de; }
+.glyphicon-warning { color: #f0ad4e; }
+.glyphicon-danger { color: #d9534f; } 
+
+/**
+ * RPI action & button
+ */
+
+.rpi-action {
+	cursor: pointer;
+    padding: 4px;	
+    border: 1px solid transparent;
+    margin-right: 10px;	
+    display: inline-block;
+}
+
+.rpi-action:hover {
+    background-color: #eee;
+    border: 1px solid #BCD7FF;
+    border-radius: 10px;
+}
+
+.rpi_button {
+	vertical-align: middle;
+	cursor: pointer;
+	height: 30px;
+}
+
+/**
+ * Log panel
+ */
+.log .content {
+    overflow-y: auto;
+    height: 200px;
+    font-family: monospace;
+}
+
+/**
+ * Service panel
+ */
+.services .label {
+    font-size: 1.0em;
+}
+
+/**
+ * Console
+ */
+.console input {
+	background: transparent;
+	border: 0 none;   
+	outline: 0 none;
+	width: 100%;
+	text-indent: 80pt;
+}
+
+.console, .console input {
+	font-family: monospace;
+}
+
+.console form {
+	position: relative;
+}
+
+.console form .prompter {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.console .error {
+	color: red;
+}
+
+/**
+ * Mobile
+ */
+@media screen and (max-width: 1050px) {
+	main {
+		width: 100%;
+	}
+
+	.data-panel {
+		width: 100%;
+		margin: inherit!important;
+	}
+}
