@@ -44,17 +44,21 @@
     <body>
 	    <div ng-controller="mainCtrl">
 	        <header class="jumbotron">
-	            <h1>{{ app.title }} / <small>REST in PI</small></h1>
+	            <h1>{{ settings.app.title }} / <small>REST in PI</small></h1>
 	        </header>
 
 			<main>
 				<tabset>
 		        	<tab heading="Infos">
-				    	<panel title="Settings" title-icon="glyphicon glyphicon-cog glyphicon-default" imports="rpi, settings">
+				    	<panel title="Settings" title-icon="glyphicon glyphicon-cog glyphicon-default" imports="settings">
 				    		<div class="list-group">
 				    			<div class="list-group-item">
-				    				Host : <input type="text" value="{{ rpi.host }}" class="form-control" />
+				    				Host : <input type="text" ng-model="$root.rpi.settings.host" class="form-control" />
 				    			</div>
+				    			
+				    			<div class="list-group-item">
+				    				Base URL : <input type="text" ng-model="$root.rpi.settings.baseurl" class="form-control" />
+				    			</div>				    			
 				    			
 				    			<div class="list-group-item">
 							    	Refresh all every (seconds)
@@ -68,10 +72,10 @@
 				    		</div>
 				    	</panel>
 				    
-				        <panel title="Actions" title-icon="glyphicon glyphicon-tasks glyphicon-primary" imports="rpi">
-					        <remotecontent url="/rpi/ws/raspberry/data?zone=action">
+				        <panel title="Actions" title-icon="glyphicon glyphicon-tasks glyphicon-primary">
+					        <remotecontent url="{{ $root.rpi.settings.host }}/rpi/ws/raspberry/data?zone=action">
 					            <div class="panel-body" ng-show="data.length > 0">
-					                <span class="rpi-action" ng-repeat="action in data" ng-click="rpi.action(action)">
+					                <span class="rpi-action" ng-repeat="action in data" ng-click="$root.rpi.action(action)">
 					                    <img src="{{ action.image }}" class="rpi_button" data-action="{{ action.action }}" title="{{ action.name }}" alt="{{ action.name }}" /> {{ action.name }}
 					                </span>
 					            </div>    
@@ -79,7 +83,7 @@
 				        </panel>
 				        
 				        <panel title="Infos" title-icon="glyphicon glyphicon-flash glyphicon-success" imports="infos">
-					        <remotecontent url="/rpi/ws/raspberry/data?zone=info">
+					        <remotecontent url="{{ $root.rpi.settings.host }}/rpi/ws/raspberry/data?zone=info">
 					            <table class="table">
 					                <tr ng-repeat="info in data">
 					                    <td class="fitcontent">
@@ -122,8 +126,8 @@
 				            </remotecontent>
 				        </panel>
 				        
-				        <panel title="Pages" title-icon="glyphicon glyphicon-th-large glyphicon-info" imports="rpi">
-					        <remotecontent url="/rpi/ws/raspberry/pages">
+				        <panel title="Pages" title-icon="glyphicon glyphicon-th-large glyphicon-info">
+					        <remotecontent url="{{ $root.rpi.settings.host }}/rpi/ws/raspberry/pages">
 					            <table class="table">
 					                <tr ng-repeat="page in data">
 					                    <td class="">
@@ -136,8 +140,8 @@
 				            </remotecontent>
 				        </panel> 	        
 				        
-				        <panel title="Services" title-icon="glyphicon glyphicon-hdd glyphicon-warning" imports="rpi" class="services">
-				        	<remotecontent url="/rpi/ws/services/list">
+				        <panel title="Services" title-icon="glyphicon glyphicon-hdd glyphicon-warning" class="services">
+				        	<remotecontent url="{{ $root.rpi.settings.host }}/rpi/ws/services/list">
 					            <div class="list-group">
 					                <span ng-repeat="service in data"  class="list-group-item">
 					                	<!-- Link version : url not empty -->
@@ -152,7 +156,7 @@
 					                    
 					                    <span class="label pull-right" 
 					                        ng-class="{'label-success': service.enabled, 'label-warning': !service.enabled, 'label-danger': service.enabled == 255, pointer: service.cmd}" 
-					                        ng-click="rpi.service.switch(service)">
+					                        ng-click="$root.rpi.service.switch(service)">
 					                    {{ service.enabled ? (service.enabled == 255 ? 'KO' : 'On') : 'Off' }}
 					                    </span>
 					                </span>
@@ -160,9 +164,9 @@
 				            </remotecontent>
 				        </panel>
 			
-						<panel title="Log" title-icon="glyphicon glyphicon-list-alt glyphicon-danger" imports="log, rpi" class="log">
+						<panel title="Log" title-icon="glyphicon glyphicon-list-alt glyphicon-danger" class="log">
 							<actions>
-								<i class="glyphicon glyphicon-trash" ng-click="rpi.cleanLog($event)"></i>
+								<i class="glyphicon glyphicon-trash" ng-click="$root.logger.clean($event)"></i>
 							</actions>
 				            <table class="table">
 				            	<thead>
@@ -172,7 +176,7 @@
 					            	</tr>
 				            	</thead>
 				            	<tbody>
-					            	<tr ng-repeat="line in log">
+					            	<tr ng-repeat="line in $root.logger.list">
 					            		<td  class="fitcontent">{{ line.date }}</td>
 					            		<td>{{ line.msg }}</td>
 					            	</tr>

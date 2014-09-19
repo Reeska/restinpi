@@ -8,6 +8,13 @@ angular.module('reeska.logger', [])
  */
 .factory('$logger', function ($rootScope) {
 	var l = new Logger();
+	var clean = l.clean;
+	
+	l.clean = function($e) {
+	    $e.stopPropagation();
+	    
+	    return clean();
+	}
 	
 	return l;
 });

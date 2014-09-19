@@ -13,7 +13,7 @@ angular.module('reeska.panel.remotecontent', ['reeska.panel', 'reeska.logger'])
 		template: 
 			'<div class="remotecontent">\
 				<actions>\
-					<i class="glyphicon glyphicon-refresh action-refresh" ng-click="refresh($event)" ng-show="dataurl" ng-class="{rotation: loading}"></i>\
+					<i class="glyphicon glyphicon-refresh action-refresh" ng-click="refresh($event)" ng-class="{rotation: loading}"></i>\
 				</actions>\
                 <div class="alert alert-danger" role="alert" ng-show="error">\
                   {{ error }}\
@@ -29,13 +29,20 @@ angular.module('reeska.panel.remotecontent', ['reeska.panel', 'reeska.logger'])
                 element.append(clone);
             });							
 		},
-		controller: function($scope, $element, $attrs, $http, $logger, $rootScope) {
+		controller: function($scope, $element, $attrs, $http, $logger, $rootScope, $interpolate) {
+		   /* var $settings = angular.extend({
+		        // url : required in attrs,
+		        autorefresh : true,
+		        refreshinterval : 10,
+		        baseurl : ''
+		    }, $attrs);*/
+		    
 		    /*
 		     * Remote content
 		     */
-            $scope.dataurl = $attrs.url;
-            $scope.loading = false;
-            $scope.data = [];
+            $scope.iurl  = $interpolate($attrs.url);
+            $scope.loading  = false;
+            $scope.data     = [];
 
             /**
              * Get content from url and assign to $scope.data
@@ -67,29 +74,40 @@ angular.module('reeska.panel.remotecontent', ['reeska.panel', 'reeska.logger'])
                 /*
                  * Get logging
                  */
-                var sl = $logger.log('Loading ' + $scope.dataurl);
+                var url = $scope.iurl($scope);
+                var sl = $logger.log('Loading ' + url);
                 
-                $http.get($scope.dataurl)
+                $http.get(url)
                 .success(function(data) {
                     $scope.data = data;
                     
                     
                     sl.append(' [OK]');
                 })
-                .error(function(data) {
+                .error(function(data, status) {
                     $scope.data = [];
-                    $scope.error = 'Fail : ' + data.error;
+                    $scope.error = 'Fail : [' + status + '] ' + (data.error || data) + ' url:' + url;
                     
                     sl.append(' [KO]');
                     
                     // error so tell panel to display content
-                    if ($e)
+                    //if ($e)
                         $pmodel.content = true;                    
                 })
                 .finally(function() {
                     $scope.loading = false;
                 });
             })();
+            
+            /**
+             * Autorefresh
+             */
+            /*loop(function() {
+                if ($settings.autorefresh)
+                    $scope.refresh();
+            }, function() {
+                return $settings.refreshinterval * 1000;
+            });*/
             
             /**
              * Expose to root scope
