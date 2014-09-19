@@ -13,7 +13,7 @@
 			</div>
 			<div>
 				<h3>Infos</h3>
-                {% for action in model.contents('info') %}
+                {% for action in model.contents('old.info') %}
                 <p>{{ action|raw|nl2br }}</p>
                 {% endfor %}                
 			</div>
