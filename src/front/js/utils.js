@@ -15,7 +15,7 @@ function Id() {
     self.last = 0;
     self.next = function() {
         return ++self.last;
-    }
+    };
 }
 
 var Id = new Id();   
@@ -30,13 +30,15 @@ var Arrows = {
 /**
  * Timeout looper
  */
-function loop(fn, time) {
-    var t = time;
+function loop(fn, time, watch) {
+    var t = time,
+        w = watch || function() {};
+    
     if (typeof time == 'function')
         t = time();
     
-    setTimeout(function() {
+    w(setTimeout(function() {
         fn();
-        loop(fn, time);
-    }, t);
+        loop(fn, time, w);
+    }, t));
 } 

@@ -4,32 +4,50 @@
 
 angular.module('app', ['ui.bootstrap', 'reeska.storage', 'reeska.panel', 'reeska.panel.remotecontent', 'reeska.logger'])
 /**
- * Constantes
+ * Config
  */
-.value('baseurl', '/rpi')
-.value('dataurl', '/rpi/ws/raspberry/data')
-.value('servurl', '/rpi/ws/services/service')
-.value('shellurl', '/rpi/ws/raspberry/shell')
+.config(['$loggerProvider', '$storageProvider', function($loggerProvider, $storageProvider) {
+    $loggerProvider.init(
+    	$storageProvider.get('log.settings', {
+    		list : [],
+    		bound : 10
+    	})
+    );
+}])
+
+/**
+ * Run
+ */
+.run(['$remoteFactory', function($remoteFactory) {
+	/*
+	 * start autorefresh
+	 */
+    $remoteFactory.start();
+}]) 
 
 /**
  * Main controller
  */
-.controller('mainCtrl', function($scope, $rootScope, $http, $storage, $logger, $rpi, $console) {
-    /*
-     * init logger with list
-     */
-    $logger.init($storage.get('log', []));
-    
-    /**
+.controller('mainCtrl', function($scope, $rootScope, $http, $storage, $logger, $rpi, $console, $remoteFactory) {
+    /*****************************
      * Expose services to root
+     *****************************/
+
+    /*
+     * RPI Api & Logger
      */
     $rootScope.rpi = $rpi;
     $rootScope.logger = $logger;
     
-    /**
+    /*****************************
      * Expose to current scope
+     *****************************/
+     
+    /*
+     * Console & Remoter
      */
     $scope.console = $console;
+    $scope.remoter = $remoteFactory;
     
     /*
      * Settings
@@ -37,26 +55,7 @@ angular.module('app', ['ui.bootstrap', 'reeska.storage', 'reeska.panel', 'reeska
     $scope.settings = $storage.get('settings', {
         app : {
             title : 'RPI'
-        },
-        
-        remote : {
-            refresh : true,
-            refreshTime : 10
         }
-    });
-    
-    /**
-     * Refresh looper
-     */
-   loop(function() {
-        if (!$scope.settings.remote.refresh || !$rootScope.remoteContents) return;
-        
-        angular.forEach($rootScope.remoteContents, function(item) {
-            item.refresh();
-        });
-        
-    }, function() { 
-        return $scope.settings.remote.refreshTime * 1000; 
     });
 })
 

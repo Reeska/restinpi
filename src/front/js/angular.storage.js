@@ -6,7 +6,7 @@ angular.module('reeska.storage', [])
 /**
  * Data Manager
  */
-.factory('$storage', function ($rootScope) {
+.provider('$storage', function () {
     var service = {
         model: {
         },
@@ -29,16 +29,16 @@ angular.module('reeska.storage', [])
         /**
          * Get stored value, or initialize this with value if not exists.
          */
-        get: function(name, value) {
-            if (!service.model[name])
+        get: function(name, value, override) {
+            if (override || !service.model[name])
                 service.model[name] = value;
                 
             return service.model[name]
         }
     }
 
-    $rootScope.$on("savestate", service.SaveState);
-    $rootScope.$on("restorestate", service.RestoreState);
+    //$rootScope.$on("savestate", service.SaveState);
+    //$rootScope.$on("restorestate", service.RestoreState);
 
 	/**
 	 * Restore data from storage
@@ -49,6 +49,13 @@ angular.module('reeska.storage', [])
      * Save data to storage when leaving
      */
     $(window).unload(service.SaveState);
+    
+    /*
+     * expose to config as $storageProvider
+     */
+    this.get = service.get;
 
-    return service;
+    this.$get = function() {
+        return service;
+    };
 });

@@ -50,7 +50,7 @@
 			<main>
 				<tabset>
 		        	<tab heading="Infos">
-				    	<panel title="Settings" title-icon="glyphicon glyphicon-cog glyphicon-default" imports="settings">
+				    	<panel title="Settings" title-icon="glyphicon glyphicon-cog glyphicon-default" imports="settings, remoter">
 				    		<div class="list-group">
 				    			<div class="list-group-item">
 				    				Host : <input type="text" ng-model="$root.rpi.settings.host" class="form-control" />
@@ -64,9 +64,9 @@
 							    	Refresh all every (seconds)
 								    <div class="input-group">
 								    	<span class="input-group-addon">
-								    		<input type="checkbox" ng-model="settings.remote.refresh" />
+								    		<input type="checkbox" ng-model="remoter.settings.autorefresh" ng-click="remoter.switch()" />
 								      	</span>
-								      	<input type="text" ng-model="settings.remote.refreshTime" class="form-control" />
+								      	<input type="text" ng-model="remoter.settings.refreshinterval" class="form-control" />
 								    </div>
 				    			</div>
 				    		</div>
@@ -164,7 +164,7 @@
 				            </remotecontent>
 				        </panel>
 			
-						<panel title="Log" title-icon="glyphicon glyphicon-list-alt glyphicon-danger" class="log">
+						<panel title="Log ({{ $root.logger.size() }})" title-icon="glyphicon glyphicon-list-alt glyphicon-danger" class="log">
 							<actions>
 								<i class="glyphicon glyphicon-trash" ng-click="$root.logger.clean($event)"></i>
 							</actions>

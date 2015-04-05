@@ -3,10 +3,52 @@
  */
 angular.module('reeska.panel.remotecontent', ['reeska.panel', 'reeska.logger'])
 
+.factory('$remoteFactory', ['$storage', function($storage) {
+	var cfg = $storage.get('remoter', {
+	        autorefresh : true,
+	        refreshinterval : 10,		
+		}),
+		contents = [],
+		timeout;
+	
+	return {
+		start: function() {
+			loop(function() {
+                if (cfg.autorefresh)
+					angular.forEach(contents, function(item) {
+	                    item.refresh();
+					})
+            }, function() {
+                return cfg.refreshinterval * 1000;
+            }, function(id) {
+            	timeout = id;
+            })	
+		},
+		
+		stop: function() {
+			clearTimeout(timeout);
+			timeout = undefined;
+		},
+		
+		switch: function() {
+			if (timeout)
+				this.stop();
+			else
+				this.start();
+		},
+		
+		add: function(remotecontent) {
+			contents.push(remotecontent);
+		},
+		
+		settings: cfg
+	}
+}])
+
 /**
  * Remote content
  */
-.directive('remotecontent', function() {
+.directive('remotecontent', function($remoteFactory) {
 	return {
 		require: '^panel',
 		transclude: true,
@@ -120,7 +162,13 @@ angular.module('reeska.panel.remotecontent', ['reeska.panel', 'reeska.logger'])
                 url : $scope.dataurl
             });
             
-            $rootScope.remoteContents = expose;
+            //$rootScope.remoteContents = expose;
+            
+            $remoteFactory.add({
+                refresh : $scope.refresh,
+                title : $scope.title,
+                url : $scope.iurl
+            });
 		}
 	}            
 })
