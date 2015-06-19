@@ -5,8 +5,8 @@ Tools to manage and monitor Raspberry PI through Web GUI developped with modular
 
 There are three parts :
 
-- Server side in PHP 5.4 : [src/server](https://github.com/Reeska/restinpi/tree/master/src/front)
-- Front side app in AngularJS : [src/front](https://github.com/Reeska/restinpi/tree/master/src/server)
+- Server side in PHP 5.4 : [src/server](https://github.com/Reeska/restinpi/tree/master/src/server)
+- Front side app in AngularJS : [src/front](https://github.com/Reeska/restinpi/tree/master/src/front)
 - Android app (Same as front side app embedded) : [src/mobile/android/RPIManager](https://github.com/Reeska/restinpi/tree/master/src/mobile/android/RPIManager)
 
 ## Features
